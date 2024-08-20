@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { db } from "./../data/db";
 
 const useCart = () =>{
@@ -67,6 +67,12 @@ const useCart = () =>{
     setCart(updateCart);
   };
 
+    // state derivado || para usar la logica fuera del template
+    const isEmpty = useMemo(() => cart.length === 0, [cart]);
+    // calcula la cantidad total del cart .reduce
+      const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.quantity * item.price), 0 ), [cart]);
+    
+
   return{
     data,
     cart,
@@ -75,7 +81,8 @@ const useCart = () =>{
     cleanCart,
     decreaseQuantity,
     increaseQuantity,
-    
+    isEmpty,
+    cartTotal
   }
 
 };
